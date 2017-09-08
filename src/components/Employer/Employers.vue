@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-layout v-for="i in 3" :key="i" class="mb-2">
+    <v-layout v-for="i in 6" :key="i" class="mb-2">
       <v-flex xs12>
         <v-card>
           <v-container fluid class="pa-0">
