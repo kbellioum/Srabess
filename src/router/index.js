@@ -9,6 +9,7 @@ import Employers from '@/components/Employer/Employers'
 import Profile from '@/components/User/Profile'
 import Signup from '@/components/User/Signup'
 import Signin from '@/components/User/Signin'
+import AuthGuard from './auth-guard'
 
 Vue.use(Router)
 
@@ -27,12 +28,14 @@ export default new Router({
     {
       path: '/job/new',
       name: CreateJob,
-      component: CreateJob
+      component: CreateJob,
+      beforeEnter: AuthGuard
     },
     {
       path: '/profile',
       name: 'Profile',
-      component: Profile
+      component: Profile,
+      beforeEnter: AuthGuard
     },
     {
       path: '/signup',
@@ -47,12 +50,14 @@ export default new Router({
     {
       path: '/employers',
       name: 'Employers',
-      component: Employers
+      component: Employers,
+      beforeEnter: AuthGuard
     },
     {
       path: '/employer/:id',
       name: 'Employer',
-      component: Employer
+      component: Employer,
+      beforeEnter: AuthGuard
     },
     {
       path: '/job/:id',
