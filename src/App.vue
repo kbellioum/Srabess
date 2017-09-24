@@ -34,7 +34,8 @@
           absolute
           bottom
           left
-          to="/job/new"
+          v-if="userIsAuthenticated"
+          to="/employer/new"
           >
             <v-icon>add</v-icon>
           </v-btn>
@@ -73,8 +74,8 @@
         ]
         if (this.userIsAuthenticated) {
           menuItems = [
-            {icon: 'work', title: 'Jobs', link: '/jobs'},
-            {icon: 'people', title: 'Employers', link: '/employers'},
+            // {icon: 'work', title: 'Jobs', link: '/jobs'},
+            {icon: 'people', title: 'Employers', link: '/'},
             {icon: 'person', title: 'Profile', link: '/profile'}
           ]
         }

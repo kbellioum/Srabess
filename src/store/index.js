@@ -12,14 +12,14 @@ export const store = new Vuex.Store({
       // { imageUrl: 'https://unsplash.it/200/300/', id: '3', title: 'Third_Job', date: new Date(), description: 'decription 3' }
     ],
     employers: [
-      { header: 'Employers' },
-      { nom: 'Alami', prenom: 'Hamid', harfa: 'Sabbak', rate: 2, imageUrl: 'http://theracecardproject.com/wp-content/uploads/2013/08/1000323_10153108963830582_1407934602_n-300x300.jpg', zone: 'Casablanca' },
-      { divider: true, inset: true },
-      { nom: 'Moutawakil', prenom: 'Karim', harfa: 'Mecanicien', rate: 3, imageUrl: 'https://www.drhilinski.com/wp-content/uploads/rmgallery2/RMG2510256085-6899-a/original.jpg', zone: 'Agadir' },
-      { divider: true, inset: true },
-      { nom: 'Naciri', prenom: 'Mohamed', harfa: 'Electricien', rate: 4, imageUrl: 'https://media.licdn.com/mpr/mpr/shrinknp_200_200/p/1/000/119/1f7/006c98a.jpg', zone: 'Rabat' },
-      { divider: true, inset: true },
-      { nom: 'Yahiaoui', prenom: 'Amine', harfa: 'Nejjar', rate: 5, imageUrl: 'https://v.cdn.vine.co/r/avatars/54ADEF01C01230958909008314368_39198044266.4.1.jpg?versionId=hdUOUWNjiz13.LhUmRr7hxMBlC2cxutt', zone: 'Maroc' }
+      // { header: 'Employers' },
+      // { id: '1', nom: 'Alami', prenom: 'Hamid', harfa: 'Sabbak', rate: 2, imageUrl: 'http://theracecardproject.com/wp-content/uploads/2013/08/1000323_10153108963830582_1407934602_n-300x300.jpg', zone: 'Casablanca' },
+      // { divider: true, inset: true },
+      // { id: '2', nom: 'Moutawakil', prenom: 'Karim', harfa: 'Mecanicien', rate: 3, imageUrl: 'https://www.drhilinski.com/wp-content/uploads/rmgallery2/RMG2510256085-6899-a/original.jpg', zone: 'Agadir' },
+      // { divider: true, inset: true },
+      // { id: '3', nom: 'Naciri', prenom: 'Mohamed', harfa: 'Electricien', rate: 4, imageUrl: 'https://media.licdn.com/mpr/mpr/shrinknp_200_200/p/1/000/119/1f7/006c98a.jpg', zone: 'Rabat' },
+      // { divider: true, inset: true },
+      // { id: '4', nom: 'Yahiaoui', prenom: 'Amine', harfa: 'Nejjar', rate: 5, imageUrl: 'https://v.cdn.vine.co/r/avatars/54ADEF01C01230958909008314368_39198044266.4.1.jpg?versionId=hdUOUWNjiz13.LhUmRr7hxMBlC2cxutt', zone: 'Maroc' }
     ],
     user: null,
     loading: false,
@@ -42,8 +42,15 @@ export const store = new Vuex.Store({
     setLoadedJobs (state, payload) {
       state.loadedJobs = payload
     },
+    setLoadedEmployers (state, payload) {
+      state.employers = payload
+    },
     createJob (state, payload) {
       state.loadedJobs.push(payload)
+    },
+    createEmployer (state, payload) {
+      state.employers.push(payload)
+      console.log(payload)
     },
     updateJob (state, payload) {
       const job = state.loadedJobs.find(job => {
@@ -108,6 +115,34 @@ export const store = new Vuex.Store({
           commit('setLoading', false)
         })
     },
+    loadEmployers ({commit}) {
+      commit('setLoading', true)
+      firebase.database().ref('employers').once('value')
+        .then((data) => {
+          const employers = [{ header: 'Employers' }]
+          const obj = data.val()
+          for (let key in obj) {
+            employers.push({ divider: true, inset: true })
+            employers.push({
+              id: key,
+              nom: obj[key].nom,
+              prenom: obj[key].prenom,
+              harfa: obj[key].harfa,
+              zone: obj[key].zone,
+              imageUrl: obj[key].imageUrl,
+              userid: obj[key].userid
+            })
+          }
+          commit('setLoadedEmployers', employers)
+          commit('setLoading', false)
+        })
+        .catch(
+          (error) => {
+            console.log(error)
+            commit('setLoading', false)
+          }
+        )
+    },
     loadJobs ({commit}) {
       commit('setLoading', true)
       firebase.database().ref('jobs').once('value')
@@ -131,6 +166,46 @@ export const store = new Vuex.Store({
           (error) => {
             console.log(error)
             commit('setLoading', false)
+          }
+        )
+    },
+    createEmployer ({commit, getters}, payload) {
+      const employer = {
+        nom: payload.nom,
+        prenom: payload.prenom,
+        harfa: payload.harfa,
+        zone: payload.zone,
+        userid: getters.user.id
+      }
+      let imageUrl
+      let key
+      firebase.database().ref('employers').push(employer)
+        .then(
+          (data) => {
+            console.log(data)
+            key = data.key
+            return key
+          }
+        )
+        .then(key => {
+          const filename = payload.image.name
+          const ext = filename.slice(filename.lastIndexOf('.'))
+          return firebase.storage().ref('employers/' + key + '.' + ext).put(payload.image)
+        })
+        .then(fileData => {
+          imageUrl = fileData.metadata.downloadURLs[0]
+          return firebase.database().ref('employers').child(key).update({imageUrl: imageUrl})
+        })
+        .then(() => {
+          commit('createEmployer', {
+            ...employer,
+            imageUrl: imageUrl,
+            id: key
+          })
+        })
+        .catch(
+          (error) => {
+            console.log(error)
           }
         )
     },
@@ -289,6 +364,13 @@ export const store = new Vuex.Store({
       return (jobId) => {
         return state.loadedJobs.find((job) => {
           return job.id === jobId
+        })
+      }
+    },
+    loadedEmployer (state) {
+      return (employerId) => {
+        return state.employers.find((employer) => {
+          return employer.id === employerId
         })
       }
     },

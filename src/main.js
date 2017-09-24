@@ -41,6 +41,7 @@ new Vue({
         this.$store.dispatch('fetchUserData')
       }
     })
-    this.$store.dispatch('loadJobs')
+    // this.$store.dispatch('loadJobs')
+    this.$store.dispatch('loadEmployers')
   }
 })
