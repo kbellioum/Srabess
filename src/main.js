@@ -6,6 +6,7 @@ import router from './router'
 import { store } from './store'
 import DateFilter from './filters/date'
 import AlertCmp from './components/Shared/Alert.vue'
+import StarCmp from './components/Shared/star.vue'
 import EditJobDetailsDialog from './components/Jobs/Edit/EditJobDetailsDialog.vue'
 import EditJobDateDialog from './components/Jobs/Edit/EditJobDateDialog.vue'
 import EditJobTimeDialog from './components/Jobs/Edit/EditJobTimeDialog.vue'
@@ -16,6 +17,7 @@ Vue.config.productionTip = false
 
 Vue.filter('date', DateFilter)
 Vue.component('app-alert', AlertCmp)
+Vue.component('app-star', StarCmp)
 Vue.component('app-edit-job-details-dialog', EditJobDetailsDialog)
 Vue.component('app-edit-job-date-dialog', EditJobDateDialog)
 Vue.component('app-edit-job-time-dialog', EditJobTimeDialog)

@@ -13,9 +13,10 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/profile',
+      path: '/profile/:id',
       name: 'Profile',
       component: Profile,
+      props: true,
       beforeEnter: AuthGuard
     },
     {

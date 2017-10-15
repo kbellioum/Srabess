@@ -8,9 +8,16 @@
                <v-layout row wrap>
                  <v-flex xs8 sm10 md10 lg10 lx10>
                    <div>
-                     <div class="headline">{{ employer.nom}} {{ employer.prenom }} </div>
-                     <div>{{ employer.harfa }}</div>
-                     <div>{{ employer.zone }}</div>
+                     <div class="mb-2">
+                       <div class="headline">{{ employer.nom}} {{ employer.prenom }} </div>
+                       <div><v-icon class="white--text">work</v-icon> {{ employer.harfa }}</div>
+                       <div><v-icon class="white--text">room</v-icon> {{ employer.zone }}</div>
+                       <div><v-icon class="white--text">phone</v-icon> {{ employer.mobile }}</div>
+                       <div><v-icon class="white--text" >email</v-icon> <a :href="'mailto:' + employer.email">{{ employer.email }}</a></div>
+                     </div>
+
+                     <!-- <v-divider class="white mb-2"></v-divider> -->
+                     <app-star :rate="employer.rate"></app-star>
                    </div>
                  </v-flex>
                  <v-flex xs4 sm2 md2 lg2 lx2>
@@ -41,7 +48,12 @@
     ],
     data () {
       return {
-
+      }
+    },
+    methods: {
+      url () {
+        console.log('mailto:' + this.employer.email)
+        return 'mailto:' + this.employer.email
       }
     },
     computed: {
@@ -51,3 +63,11 @@
     }
   }
 </script>
+
+<style>
+a {
+  text-decoration: none;
+  color: white;
+}
+
+</style>

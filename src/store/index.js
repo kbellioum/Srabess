@@ -50,7 +50,6 @@ export const store = new Vuex.Store({
     },
     createEmployer (state, payload) {
       state.employers.push(payload)
-      console.log(payload)
     },
     updateJob (state, payload) {
       const job = state.loadedJobs.find(job => {
@@ -119,10 +118,10 @@ export const store = new Vuex.Store({
       commit('setLoading', true)
       firebase.database().ref('employers').once('value')
         .then((data) => {
-          const employers = [{ header: 'Employers' }]
+          const employers = []
           const obj = data.val()
           for (let key in obj) {
-            employers.push({ divider: true, inset: true })
+            // employers.push({ divider: true, inset: true })
             employers.push({
               id: key,
               nom: obj[key].nom,
@@ -130,7 +129,10 @@ export const store = new Vuex.Store({
               harfa: obj[key].harfa,
               zone: obj[key].zone,
               imageUrl: obj[key].imageUrl,
-              userid: obj[key].userid
+              userid: obj[key].userid,
+              rate: obj[key].rate,
+              mobile: obj[key].mobile,
+              email: obj[key].email
             })
           }
           commit('setLoadedEmployers', employers)
@@ -175,7 +177,10 @@ export const store = new Vuex.Store({
         prenom: payload.prenom,
         harfa: payload.harfa,
         zone: payload.zone,
-        userid: getters.user.id
+        userid: getters.user.id,
+        rate: payload.rate,
+        mobile: payload.mobile,
+        email: payload.email
       }
       let imageUrl
       let key
@@ -387,6 +392,13 @@ export const store = new Vuex.Store({
       return state.employers.sort((empA, empB) => {
         return empA.rate < empB.rate
       })
+    },
+    loadedEmployersByUserId (state) {
+      return (userId) => {
+        return state.employers.find((employer) => {
+          return employer.userid === userId
+        })
+      }
     }
   }
 })

@@ -34,7 +34,7 @@
           absolute
           bottom
           left
-          v-if="userIsAuthenticated"
+          v-if="userIsAuthenticated && userIsAnEmployer"
           to="/employer/new"
           >
             <v-icon>add</v-icon>
@@ -73,16 +73,22 @@
           {icon: 'lock_open', title: 'Sign up', link: '/signup'}
         ]
         if (this.userIsAuthenticated) {
+          const id = this.$store.getters.user.id
+          const link = '/profile/' + id
           menuItems = [
             // {icon: 'work', title: 'Jobs', link: '/jobs'},
             {icon: 'people', title: 'Employers', link: '/'},
-            {icon: 'person', title: 'Profile', link: '/profile'}
+            {icon: 'person', title: 'Profile', link: link}
           ]
         }
         return menuItems
       },
       userIsAuthenticated () {
         return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+      },
+      userIsAnEmployer () {
+        const IsHere = this.$store.getters.loadedEmployersByUserId(this.$store.getters.user.id)
+        return !(IsHere !== null && IsHere !== undefined)
       }
     },
     methods: {

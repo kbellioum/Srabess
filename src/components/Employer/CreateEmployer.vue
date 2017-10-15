@@ -2,7 +2,7 @@
     <v-container>
       <v-layout row>
         <v-flex xs12 sm6 offset-sm3>
-            <h4 class="primary--text">Create a new Job</h4>
+            <h4 class="primary--text">Create a new Employer</h4>
         </v-flex>
       </v-layout>
       <v-layout row>
@@ -40,6 +40,23 @@
 
               </v-flex>
             </v-layout>
+            <v-layout row>
+              <v-flex xs12 sm6 offset-sm3>
+                <v-text-field name="mobile" label="Mobile" id="mobile" v-model="mobile" required>
+
+                </v-text-field>
+
+              </v-flex>
+            </v-layout>
+            <v-layout row>
+              <v-flex xs12 sm6 offset-sm3>
+                <v-text-field name="email" label="Email" id="email" v-model="email" required>
+
+                </v-text-field>
+
+              </v-flex>
+            </v-layout>
+
             <!-- <v-layout row>
               <v-flex xs12 sm6 offset-sm3>
                 <h4>Pick a date & time</h4>
@@ -91,7 +108,7 @@
             <v-layout row>
               <v-flex xs12 sm6 offset-sm3>
                 <v-btn class="primary" :disabled="!formIsValid" type="submit">
-                  Create Job
+                  Create Employer
                 </v-btn>
               </v-flex>
             </v-layout>
@@ -115,12 +132,14 @@ export default {
       nom: '',
       prenom: '',
       harfa: '',
-      zone: ''
+      zone: '',
+      mobile: '',
+      email: ''
     }
   },
   computed: {
     formIsValid () {
-      return this.nom !== '' && this.prenom !== '' && this.imageUrl !== ''
+      return this.nom !== '' && this.prenom !== '' && this.imageUrl !== '' && this.mobile !== ''
     },
     submittableDateTime () {
       const date = new Date(this.date)
@@ -165,7 +184,10 @@ export default {
         prenom: this.prenom,
         harfa: this.harfa,
         zone: this.zone,
-        image: this.image
+        image: this.image,
+        rate: 1,
+        mobile: this.mobile,
+        email: this.email
       }
       console.log(employerData)
       this.$store.dispatch('createEmployer', employerData)
