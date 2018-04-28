@@ -33,8 +33,9 @@
                   label="Harfa"
                   v-bind:items="items"
                   v-model="harfa"
-                  v-bind:error-messages="['Please select an option']"
                   item-value="text"
+                  required
+
                 ></v-select>
 
               </v-flex>
