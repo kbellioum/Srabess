@@ -26,9 +26,16 @@
             </v-layout>
             <v-layout row>
               <v-flex xs12 sm6 offset-sm3>
-                <v-text-field name="harfa" label="Harfa" id="harfa" v-model="harfa" required>
+                <!-- <v-text-field name="harfa" label="Harfa" id="harfa" v-model="harfa" required>
 
-                </v-text-field>
+                </v-text-field> -->
+                <v-select
+                  label="Harfa"
+                  v-bind:items="items"
+                  v-model="harfa"
+                  v-bind:error-messages="['Please select an option']"
+                  item-value="text"
+                ></v-select>
 
               </v-flex>
             </v-layout>
@@ -134,7 +141,13 @@ export default {
       harfa: '',
       zone: '',
       mobile: '',
-      email: ''
+      email: '',
+      e3: null,
+      items: [
+          { text: 'Electricien' },
+          { text: 'Plombier' },
+          { text: 'Maçon' }
+      ]
     }
   },
   computed: {
