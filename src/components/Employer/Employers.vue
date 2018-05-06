@@ -10,10 +10,26 @@
           ></v-progress-circular>
       </v-flex>
     </v-layout>
+    <v-layout row>
+      <v-flex xs12 sm6 offset-sm3>
+        <!-- <v-text-field name="harfa" label="Harfa" id="harfa" v-model="harfa" required>
+
+        </v-text-field> -->
+        <v-select
+          label="Choisir le filtre d'affichage"
+          v-bind:items="items"
+          v-model="e3"
+          item-value="text"
+          required
+
+        ></v-select>
+
+      </v-flex>
+    </v-layout>
     <v-layout row wrap elevation-2>
       <v-flex xs12>
         <v-list two-line >
-            <template v-for="item in employers">
+            <template v-for="item in selected">
               <v-subheader v-if="item.header" v-text="item.header">Employers</v-subheader>
               <v-divider v-else-if="item.divider" :inset="item.inset"></v-divider>
               <v-list-tile avatar v-else @click="" :to="'/employer/' + item.id">
@@ -55,9 +71,28 @@
   export default {
     data () {
       return {
+        e3: null,
+        items: [
+            { text: 'Electricien' },
+            { text: 'Plombier' },
+            { text: 'Maçon' },
+            { text: 'Peinture' },
+            { text: 'Mécanicien' },
+            { text: 'Tapisserie' },
+            { text: 'Jardinage' },
+            { text: 'TV & HiFi' },
+            { text: 'Petit Travaux' },
+            { text: 'Menuisier' },
+            { text: 'Chauffeur' },
+            { text: 'Forgeron' },
+            { text: 'Décoration' }
+        ]
       }
     },
     computed: {
+      selected () {
+        return this.employers.filter(item => item.harfa === this.e3)
+      },
       employers () {
         return this.$store.getters.loadedEmployers
       },
