@@ -132,7 +132,8 @@ export const store = new Vuex.Store({
               userid: obj[key].userid,
               rate: obj[key].rate,
               mobile: obj[key].mobile,
-              email: obj[key].email
+              email: obj[key].email,
+              message: obj[key].message
             })
           }
           commit('setLoadedEmployers', employers)
@@ -180,7 +181,8 @@ export const store = new Vuex.Store({
         userid: getters.user.id,
         rate: payload.rate,
         mobile: payload.mobile,
-        email: payload.email
+        email: payload.email,
+        message: payload.message
       }
       let imageUrl
       let key

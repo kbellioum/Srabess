@@ -65,6 +65,20 @@
               </v-flex>
             </v-layout>
 
+            <v-layout row>
+              <v-flex xs12 sm6 offset-sm3>
+                <v-text-field
+                  name="message"
+                  label="Décrivez votre profile"
+                  multi-line
+                  v-model="message"
+                  id="message"
+                  required
+                >
+                </v-text-field>
+              </v-flex>
+            </v-layout>
+
             <!-- <v-layout row>
               <v-flex xs12 sm6 offset-sm3>
                 <h4>Pick a date & time</h4>
@@ -143,6 +157,7 @@ export default {
       zone: '',
       mobile: '',
       email: '',
+      message: '',
       e3: null,
       items: [
           { text: 'Electricien' },
@@ -210,7 +225,8 @@ export default {
         image: this.image,
         rate: 1,
         mobile: this.mobile,
-        email: this.email
+        email: this.email,
+        message: this.message
       }
       console.log(employerData)
       this.$store.dispatch('createEmployer', employerData)

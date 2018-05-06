@@ -15,6 +15,17 @@
                        <div><v-icon class="white--text">phone</v-icon> {{ employer.mobile }}</div>
                        <div><v-icon class="white--text" >email</v-icon> <a :href="'mailto:' + employer.email">{{ employer.email }}</a></div>
                      </div>
+                     <v-card class="grey lighten-4 elevation-0">
+                       <div>
+                         <!-- <v-flex xs8 sm10 md10 lg10 lx10>
+                         <p></p>
+                         </v-flex> -->
+                         <v-alert info :value="true" hide-icon>
+                            {{ employer.message }}
+                         </v-alert>
+                       </div>
+                     </v-card>
+
 
                      <!-- <v-divider class="white mb-2"></v-divider> -->
                      <app-star :rate="employer.rate"></app-star>
