@@ -16,7 +16,7 @@
 
         </v-text-field> -->
         <v-select
-          label="Choisir le filtre d'affichage"
+          label="Filtrer par métier"
           v-bind:items="items"
           v-model="e3"
           item-value="text"
@@ -91,7 +91,11 @@
     },
     computed: {
       selected () {
-        return this.employers.filter(item => item.harfa === this.e3)
+        if (this.e3 === null) {
+          return this.$store.getters.loadedEmployers
+        } else {
+          return this.employers.filter(item => item.harfa === this.e3)
+        }
       },
       employers () {
         return this.$store.getters.loadedEmployers
