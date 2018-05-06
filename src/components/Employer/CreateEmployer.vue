@@ -147,7 +147,16 @@ export default {
       items: [
           { text: 'Electricien' },
           { text: 'Plombier' },
-          { text: 'Maçon' }
+          { text: 'Maçon' },
+          { text: 'Peinture' },
+          { text: 'Mécanicien' },
+          { text: 'Tapisserie' },
+          { text: 'Jardinage' },
+          { text: 'TV & HiFi' },
+          { text: 'Petit Travaux' },
+          { text: 'Menuisier' },
+          { text: 'Chauffeur' },
+          { text: 'Forgeron' }
       ]
     }
   },
