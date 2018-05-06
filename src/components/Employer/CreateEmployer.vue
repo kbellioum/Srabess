@@ -171,7 +171,8 @@ export default {
           { text: 'Petit Travaux' },
           { text: 'Menuisier' },
           { text: 'Chauffeur' },
-          { text: 'Forgeron' }
+          { text: 'Forgeron' },
+          { text: 'Décoration' }
       ]
     }
   },
